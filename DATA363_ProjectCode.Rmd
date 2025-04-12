@@ -80,6 +80,84 @@ We then use this information to construct a sequence of bar charts:
 
 
 
+################################################################################
+FOLLOWING CODE IS USED FOR GENERATING THE NUMBER OF TEAMS BAR CHARTS
+################################################################################
+
+First, the mean number of teams for each year for the women's races is calculated, with the data values being entered manually, and with the data being split between the different possible categories of races
+```{r}
+womenTeams2024Stage <- c(16, 20, 20, 18, 17)
+womenTeams2024GrandTour <- c(21, 22, 22)
+womenTeams2024OneDay <- c(16, 24, 24, 20, 24, 24, 24, 24, 24, 24, 18)
+
+meanWomenTeams2024Stage <- mean(womenTeams2024Stage)
+meanWomenTeams2024GrandTour <- mean(womenTeams2024GrandTour)
+meanWomenTeams2024OneDay <- mean(womenTeams2024OneDay)
+
+womenTeams2023Stage <- c(13, 20, 20, 19, 17)
+womenTeams2023GrandTour <- c(23, 24, 22)
+womenTeams2023OneDay <- c(12, 24, 24, 21, 24, 24, 24, 24, 24, 24, 18)
+
+meanWomenTeams2023Stage <- mean(womenTeams2023Stage)
+meanWomenTeams2023GrandTour <- mean(womenTeams2023GrandTour)
+meanWomenTeams2023OneDay <- mean(womenTeams2023OneDay)
+
+womenTeams2022Stage <- c(23, 22, 20)
+womenTeams2022GrandTour <- c(23, 22, 22)
+womenTeams2022OneDay <- c(24, 24, 23, 24, 24, 24, 24, 24, 24, 24)
+
+meanWomenTeams2022Stage <- mean(womenTeams2022Stage)
+meanWomenTeams2022GrandTour <- mean(womenTeams2022GrandTour)
+meanWomenTeams2022OneDay <- mean(womenTeams2022OneDay)
+```
+
+Next, we find the same values for the men's races:
+```{r}
+menTeams2024Stage <- c(20, 20, 24, 24, 23, 19, 18)
+menTeams2024GrandTour <- c(22, 22, 22)
+menTeams2024OneDay <- c(13, 25, 25, 23, 25, 25, 25, 25, 25, 25)
+
+menTeams2023Stage <- c(18, 20, 23, 23, 22)
+menTeams2023GrandTour <- c(22, 22, 22)
+menTeams2023OneDay <- c(14, 25, 25, 22, 25, 25, 25, 25, 25, 25)
+
+menTeams2022Stage <- c(23, 22, 20)
+menTeams2022GrandTour <- c(23, 22, 22)
+menTeams2022OneDay <- c(25, 22, 24, 25, 24, 25, 25, 25, 25)
+```
+
+We then use this information to construct a sequence of bar charts:
+```{r}
+
+```
+
+
+################################################################################
+FOLLOWING CODE IS USED FOR GENERATING THE BOX PLOTS FOR THE INDIVIDUAL AND 
+OVERALL PRIZE MONEY
+################################################################################
+
+First, we collect the data for the individual and overall prize money for the women's races, with these being separated by category:
+```{r}
+individualWomenPrizeMoney2024Stage <- c(12000, 12030, 16000)
+individualWomenPrizeMoney2024GrandTour <- c(50000, 50000)
+individualWomenPrizeMoney2024OneDay <- c(16000, 16000, 2256, 16000, 20000, 21000, 16000, 10000, 12500)
+
+overallWomenPrizeMoney2024Stage <- c(100000, 100000, 130000)
+overallWomenPrizeMoney2024GrandTour <- c(250000, 250000)
+overallWomenPrizeMoney2024OneDay <- c(43000, 40000, 40000, 50000, 34000, 20000)
+```
+
+We then collect the same data for the men's races:
+```{r}
+individualMenPrizeMoney2024Stage <- c(12000, 35500, 12000, 16000, 12300, 20000)
+individualMenPrizeMoney2024GrandTour <- c(150000, 265000, 500000)
+individualMenPrizeMoney2024OneDay <- c(16000, 16000, 16000, 16000, 16000, 20000, 30000, 16000, 16000, 20000)
+
+overallMenPrizeMoney2024Stage <- c(100000, 300000, 99000, 130000, 103700, 128000)
+overallMenPrizeMoney2024GrandTour <- c(1119960, 1600000, 2573202)
+overallMenPrizeMoney2024OneDay <- c(43000, 40000, 40000, 40000, 40000, 50000, 91000, 34000, 40000, 50000)
+```
 
 
 
