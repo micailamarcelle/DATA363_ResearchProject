@@ -15,6 +15,12 @@ knitr::opts_chunk$set(echo = TRUE)
 FOLLOWING CODE IS USED FOR GENERATING THE TOTAL DISTANCE BAR CHARTS
 ################################################################################
 
+```{r}
+library(tidyverse)
+races <- read_csv('https://docs.google.com/spreadsheets/d/1j5ezobC_HXnCS8S18cZg6zQaJqisjrUvqVK8b8x3v08/gviz/tq?tqx=out:csv')
+races <- races[1:13]
+```
+
 
 First, the mean total distance for each year for the women's races is calculated, with these values being entered in manually for now. Note that all of these values are in kilometers, and that the races are separated by category. 
 ```{r}
