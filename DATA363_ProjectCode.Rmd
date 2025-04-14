@@ -19,15 +19,43 @@ FOLLOWING CODE IS USED FOR GENERATING THE TOTAL DISTANCE BAR CHARTS
 library(tidyverse)
 races <- read_csv('https://docs.google.com/spreadsheets/d/1j5ezobC_HXnCS8S18cZg6zQaJqisjrUvqVK8b8x3v08/gviz/tq?tqx=out:csv')
 races <- races[1:13]
+races
 ```
+
+First, we need to clean up the data after reading it in. Some of the numeric columns were read as strings, so those columns need to be fixed.
+```{r}
+races$`Individual Winner Monetary Prize - MEN` <- gsub("^€", "",  races$`Individual Winner Monetary Prize - MEN`)
+races$`Total Prize Pool - MEN` <- gsub("^€", "",  races$`Total Prize Pool - MEN`)
+races$`Individual Winner Monetary Prize - WOMEN` <- gsub("^€", "",  races$`Individual Winner Monetary Prize - WOMEN`)
+races$`Total Prize Pool - WOMEN` <- gsub("^€", "",  races$`Total Prize Pool - WOMEN`)
+races$`Total Distance - MEN`<- gsub("km", "", races$`Total Distance - MEN`)
+races$`Total Distance - WOMEN`<- gsub("km", "", races$`Total Distance - WOMEN`)
+races$`Total Distance - MEN` <- as.double(races$`Total Distance - MEN`)
+races$`Total Distance - WOMEN` <- as.double(races$`Total Distance - WOMEN`)
+races$`Individual Winner Monetary Prize - MEN` <- as.numeric(gsub(',', '', races$`Individual Winner Monetary Prize - MEN`))
+races$`Individual Winner Monetary Prize - WOMEN` <- as.numeric(gsub(',', '', races$`Individual Winner Monetary Prize - WOMEN`))
+races$`Total Prize Pool - MEN` <- as.numeric(gsub(',', '', races$`Total Prize Pool - MEN`))
+races$`Total Prize Pool - WOMEN` <- as.numeric(gsub(',', '', races$`Total Prize Pool - WOMEN`))
+```
+
+
+```{r}
+summary(races)
+```
+
+```{r}
+races[races$Year == 2024 & (races$Type == 'One-Day' | races$Race == 'Tour of Guangxi'), 'Total Distance - WOMEN']
+as.numeric(races$`Final Winner Time - MEN`) # convert all times to seconds automatically
+```
+
 
 
 First, the mean total distance for each year for the women's races is calculated, with these values being entered in manually for now. Note that all of these values are in kilometers, and that the races are separated by category. 
 ```{r}
 
-womenDistance2024Stage <- c(291.2, 468.6, 358.9, 327.4, 380)
-womenDistance2024GrandTour <- c(867, 856.6, 946.3)
-womenDistance2024OneDay <- c(143, 127.1, 137, 155, 171.2, 163, 148.5, 157.4, 143.5, 152.9, 133.4)
+womenDistance2024Stage <- races[races$Year == 2024 & races$Type == 'Stage', 'Total Distance - WOMEN']
+womenDistance2024GrandTour <- races[races$Year == 2024 & races$Type == 'Grand Tour', 'Total Distance - WOMEN']
+womenDistance2024OneDay <- races[races$Year == 2024 & (races$Type == 'One-Day' | races$Race == 'Tour of Guangxi'), 'Total Distance - WOMEN']
 
 meanWomenDistance2024Stage <- mean(womenDistance2024Stage)
 meanWomenDistance2024GrandTour <- mean(womenDistance2024GrandTour)
