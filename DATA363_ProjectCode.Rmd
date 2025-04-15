@@ -36,6 +36,8 @@ races$`Individual Winner Monetary Prize - MEN` <- as.numeric(gsub(',', '', races
 races$`Individual Winner Monetary Prize - WOMEN` <- as.numeric(gsub(',', '', races$`Individual Winner Monetary Prize - WOMEN`))
 races$`Total Prize Pool - MEN` <- as.numeric(gsub(',', '', races$`Total Prize Pool - MEN`))
 races$`Total Prize Pool - WOMEN` <- as.numeric(gsub(',', '', races$`Total Prize Pool - WOMEN`))
+races$`Final Winner Time - MEN` <- as.numeric(races$`Final Winner Time - MEN`)
+races$`Final Winner Time - WOMEN` <- as.numeric(races$`Final Winner Time - WOMEN`)
 ```
 
 
@@ -43,75 +45,105 @@ races$`Total Prize Pool - WOMEN` <- as.numeric(gsub(',', '', races$`Total Prize 
 summary(races)
 ```
 
-```{r}
-races[races$Year == 2024 & (races$Type == 'One-Day' | races$Race == 'Tour of Guangxi'), 'Total Distance - WOMEN']
-as.numeric(races$`Final Winner Time - MEN`) # convert all times to seconds automatically
-```
-
-
-
 First, the mean total distance for each year for the women's races is calculated, with these values being entered in manually for now. Note that all of these values are in kilometers, and that the races are separated by category. 
 ```{r}
+wMeanDist_df = data.frame(Year=c(2016:2024))
+wMeanDist_df$DistStage = c(0)
+wMeanDist_df$DistGT = c(0)
+wMeanDist_df$DistOD = c(0)
+wMeanDist_df$RaceCount = c(0)
 
-womenDistance2024Stage <- races[races$Year == 2024 & races$Type == 'Stage', 'Total Distance - WOMEN']
-womenDistance2024GrandTour <- races[races$Year == 2024 & races$Type == 'Grand Tour', 'Total Distance - WOMEN']
-womenDistance2024OneDay <- races[races$Year == 2024 & (races$Type == 'One-Day' | races$Race == 'Tour of Guangxi'), 'Total Distance - WOMEN']
-
-meanWomenDistance2024Stage <- mean(womenDistance2024Stage)
-meanWomenDistance2024GrandTour <- mean(womenDistance2024GrandTour)
-meanWomenDistance2024OneDay <- mean(womenDistance2024OneDay)
-
-womenDistance2023Stage <- c(293.6, 468, 370.2, 303.3, 386.8)
-womenDistance2023GrandTour <- c(741, 928.65, 960.5)
-womenDistance2023OneDay <- c(140.8, 132.2, 136, 163.1, 162.5, 156.6, 145.4, 155.8, 127.3, 142.8, 144.6)
-
-meanWomenDistance2023Stage <- mean(womenDistance2023Stage)
-meanWomenDistance2023GrandTour <- mean(womenDistance2023GrandTour)
-meanWomenDistance2023OneDay <- mean(womenDistance2023OneDay)
-
-womenDistance2022Stage <- c(363.6, 294.3, 386.5)
-womenDistance2022GrandTour <- c(478.3, 1007.2, 1033.6)
-womenDistance2022OneDay <- c(128.4, 136, 162.8, 159, 158.6, 124.7, 128.5, 133.4, 142.1)
-
-meanWomenDistance2022Stage <- mean(womenDistance2022Stage)
-meanWomenDistance2022GrandTour <- mean(womenDistance2022GrandTour)
-meanWomenDistance2022OneDay <- mean(womenDistance2022OneDay)
-
+for(i in 0:8) {
+  wMeanDist_df$DistStage[9-i] <- mean(races[races$Year == (2024-i) & races$Type == 'Stage',]$`Total Distance - WOMEN`)
+  wMeanDist_df$DistGT[9-i] <- mean(races[races$Year == (2024-i) & races$Type == 'Grand Tour',]$`Total Distance - WOMEN`)
+  wMeanDist_df$RaceCount[9-i] <- nrow(races[races$Year == 2024-i,])
+  if(i >= 7) {
+    wMeanDist_df$DistOD[9-i] <- mean(races[races$Year == (2024-i) & (races$Type == 'One-Day' | races$Race == 'Tour of Guangxi' | races$Race == 'La Vuelta de Espana'),]$`Total Distance - WOMEN`)
+  } else {
+    wMeanDist_df$DistOD[9-i] <- mean(races[races$Year == (2024-i) & (races$Type == 'One-Day' | races$Race == 'Tour of Guangxi'),]$`Total Distance - WOMEN`)
+  }
+}
 ```
 
 
 The same means are then calculated for the men's races:
 ```{r}
-menDistance2024Stage <- c(824.6, 1013.2, 832.1, 839.8, 656.98, 1021.8)
-menDistance2024GrandTour <- c(3304.3, 3317.5, 3498)
-menDistance2024OneDay <- c(176, 202.2, 215, 198.9, 253.1, 270.8, 259.2, 255.2, 199.1, 259)
+mMeanDist_df = data.frame(Year=c(2016:2024))
+mMeanDist_df$DistStage = c(0)
+mMeanDist_df$DistGT = c(0)
+mMeanDist_df$DistOD = c(0)
+mMeanDist_df$RaceCount = c(0)
 
-meanMenDistance2024Stage <- mean(menDistance2024Stage)
-meanMenDistance2024GrandTour <- mean(menDistance2024GrandTour)
-meanMenDistance2024OneDay <- mean(menDistance2024OneDay)
-
-menDistance2023Stage <- c(672.7, 1028.2, 1000, 1043.8, 691.57, 958.8)
-menDistance2023GrandTour <- c(3153.8, 3354.8, 3406)
-menDistance2023OneDay <- c(174.3, 207.3, 184, 211, 260.9, 273.4, 256.6, 253.6, 194.3, 258.1)
-
-meanMenDistance2023Stage <- mean(menDistance2023Stage)
-meanMenDistance2023GrandTour <- mean(menDistance2023GrandTour)
-meanMenDistance2023OneDay <- mean(menDistance2023OneDay)
-
-menDistane2022Stage <- c(882.19, 1331.1, 712.36)
-menDistance2022GrandTour <- c(3283.1, 3449.6, 3349.8)
-menDistance2022OneDay <- c(204.2, 184, 207.9, 248.8, 272.5, 257.2, 254.1, 202.1, 257.2)
-
-meanMenDistance2022Stage <- mean(menDistance2022Stage)
-meanMenDistance2022GrandTour <- mean(menDistance2022GrandTour)
-meanMenDistance2022OneDay <- mean(menDistance2022OneDay)
+for(i in 0:8) {
+  mMeanDist_df$DistStage[9-i] <- mean(races[races$Year == (2024-i) & (races$Type == 'Stage' | races$Race == 'Tour of Guangxi'),]$`Total Distance - MEN`)
+  mMeanDist_df$DistGT[9-i] <- mean(races[races$Year == (2024-i) & (races$Type == 'Grand Tour' | races$Race == 'La Vuelta de Espana'),]$`Total Distance - MEN`)
+  mMeanDist_df$DistOD[9-i] <- mean(races[races$Year == (2024-i) & races$Type == 'One-Day',]$`Total Distance - MEN`)
+    mMeanDist_df$RaceCount[9-i] <- nrow(races[races$Year == 2024-i,])
+}
 ```
 
 We then use this information to construct a sequence of bar charts:
 ```{r}
+distances_matrix <- matrix(c(wMeanDist_df$DistOD, mMeanDist_df$DistOD), nrow = 2, byrow = TRUE)
+rownames(distances_matrix) <- c("Womens", "Mens")
+colnames(distances_matrix) <- wMeanDist_df$Year
+barplot(distances_matrix, xlab="Year", ylab="Mean Distance (km)", main="Men and Women's One-Day Mean Distances", beside=TRUE, legend=c('Womens', 'Mens'), args.legend=list(x='bottomright'), col = c("lightblue", "lightcoral"))
 
+distances_matrix <- matrix(c(wMeanDist_df$DistStage, mMeanDist_df$DistStage), nrow = 2, byrow = TRUE)
+rownames(distances_matrix) <- c("Womens", "Mens")
+colnames(distances_matrix) <- wMeanDist_df$Year
+barplot(distances_matrix, xlab="Year", ylab="Mean Distance (km)", main="Men and Women's Stage Mean Distances", beside=TRUE, legend=c('Womens', 'Mens'), args.legend=list(x='bottomright'), col = c("lightblue", "lightcoral"))
+
+
+distances_matrix <- matrix(c(wMeanDist_df$DistGT, mMeanDist_df$DistGT), nrow = 2, byrow = TRUE)
+rownames(distances_matrix) <- c("Womens", "Mens")
+colnames(distances_matrix) <- wMeanDist_df$Year
+barplot(distances_matrix, xlab="Year", ylab="Mean Distance (km)", main="Men and Women's Grand Tour Mean Distances", beside=TRUE, legend=c('Womens', 'Mens'), args.legend=list(x='bottomright'), col = c("lightblue", "lightcoral"))
+```
+```{r}
+scatterTemp <- races[races$Type == 'One-Day' | races$Type == "Grand Tour / women's one-day" | races$Type == "Men's stage, women's one-day", c('Year', 'Total Distance - WOMEN')]
+scatterTemp$Gender <- 'Women'
+colnames(scatterTemp) <- c("Year", "Total Distance", "Gender")
+
+temp <- races[races$Type == 'One-Day', c('Year', 'Total Distance - MEN')]
+temp$Gender <- 'Men'
+colnames(temp) <- c("Year", "Total Distance", "Gender")
+
+scatterTemp <- rbind(scatterTemp, temp)
+
+colors <- c("lightcoral", "lightblue") 
+plot(scatterTemp$Year, scatterTemp$`Total Distance`, col=colors[factor(scatterTemp$Gender)], pch = 19, xlab='Year', ylab='Total Distance (km)', main="One-Day Races Total Distances")
+legend("bottomright", legend=c('Men', 'Women'), pch = 19, col=colors)
 ```
 
+```{r}
+scatterTemp <- races[races$Type == 'Stage', c('Year', 'Total Distance - WOMEN')]
+scatterTemp$Gender <- 'Women'
+colnames(scatterTemp) <- c("Year", "Total Distance", "Gender")
+
+temp <- races[races$Type == 'Stage' | races$Race == 'Tour of Guangxi', c('Year', 'Total Distance - MEN')]
+temp$Gender <- 'Men'
+colnames(temp) <- c("Year", "Total Distance", "Gender")
+
+scatterTemp <- rbind(scatterTemp, temp)
+
+plot(scatterTemp$Year, scatterTemp$`Total Distance`, col=colors[factor(scatterTemp$Gender)], pch = 19, xlab='Year', ylab='Total Distance (km)', main="Stage Races Total Distances")
+legend("topleft", legend=c('Men', 'Women'), pch = 19, col=colors)
+```
+```{r}
+scatterTemp <- races[races$Type == 'Grand Tour', c('Year', 'Total Distance - WOMEN')]
+scatterTemp$Gender <- 'Women'
+colnames(scatterTemp) <- c("Year", "Total Distance", "Gender")
+
+temp <- races[races$Type == 'Grand Tour' | races$Race == 'La Vuelta de Espana', c('Year', 'Total Distance - MEN')]
+temp$Gender <- 'Men'
+colnames(temp) <- c("Year", "Total Distance", "Gender")
+
+scatterTemp <- rbind(scatterTemp, temp)
+
+plot(scatterTemp$Year, scatterTemp$`Total Distance`, col=colors[factor(scatterTemp$Gender)], pch = 19, xlab='Year', ylab='Total Distance (km)', main="Grand Tour Races Total Distances")
+legend("right", legend=c('Men', 'Women'), pch = 19, col=colors)
+```
 
 
 ################################################################################
