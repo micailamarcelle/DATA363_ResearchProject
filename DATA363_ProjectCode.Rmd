@@ -5,6 +5,8 @@ date: "2025-04-09"
 output: pdf_document
 ---
 
+# TODO box plot for monetary
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
@@ -36,8 +38,8 @@ races$`Individual Winner Monetary Prize - MEN` <- as.numeric(gsub(',', '', races
 races$`Individual Winner Monetary Prize - WOMEN` <- as.numeric(gsub(',', '', races$`Individual Winner Monetary Prize - WOMEN`))
 races$`Total Prize Pool - MEN` <- as.numeric(gsub(',', '', races$`Total Prize Pool - MEN`))
 races$`Total Prize Pool - WOMEN` <- as.numeric(gsub(',', '', races$`Total Prize Pool - WOMEN`))
-races$`Final Winner Time - MEN` <- as.numeric(races$`Final Winner Time - MEN`)
-races$`Final Winner Time - WOMEN` <- as.numeric(races$`Final Winner Time - WOMEN`)
+races$`Final Winner Time - MEN` <- as.numeric(races$`Final Winner Time - MEN`)/60
+races$`Final Winner Time - WOMEN` <- as.numeric(races$`Final Winner Time - WOMEN`)/60
 ```
 
 
@@ -51,12 +53,10 @@ wMeanDist_df = data.frame(Year=c(2016:2024))
 wMeanDist_df$DistStage = c(0)
 wMeanDist_df$DistGT = c(0)
 wMeanDist_df$DistOD = c(0)
-wMeanDist_df$RaceCount = c(0)
 
 for(i in 0:8) {
   wMeanDist_df$DistStage[9-i] <- mean(races[races$Year == (2024-i) & races$Type == 'Stage',]$`Total Distance - WOMEN`)
   wMeanDist_df$DistGT[9-i] <- mean(races[races$Year == (2024-i) & races$Type == 'Grand Tour',]$`Total Distance - WOMEN`)
-  wMeanDist_df$RaceCount[9-i] <- nrow(races[races$Year == 2024-i,])
   if(i >= 7) {
     wMeanDist_df$DistOD[9-i] <- mean(races[races$Year == (2024-i) & (races$Type == 'One-Day' | races$Race == 'Tour of Guangxi' | races$Race == 'La Vuelta de Espana'),]$`Total Distance - WOMEN`)
   } else {
@@ -72,13 +72,11 @@ mMeanDist_df = data.frame(Year=c(2016:2024))
 mMeanDist_df$DistStage = c(0)
 mMeanDist_df$DistGT = c(0)
 mMeanDist_df$DistOD = c(0)
-mMeanDist_df$RaceCount = c(0)
 
 for(i in 0:8) {
   mMeanDist_df$DistStage[9-i] <- mean(races[races$Year == (2024-i) & (races$Type == 'Stage' | races$Race == 'Tour of Guangxi'),]$`Total Distance - MEN`)
   mMeanDist_df$DistGT[9-i] <- mean(races[races$Year == (2024-i) & (races$Type == 'Grand Tour' | races$Race == 'La Vuelta de Espana'),]$`Total Distance - MEN`)
   mMeanDist_df$DistOD[9-i] <- mean(races[races$Year == (2024-i) & races$Type == 'One-Day',]$`Total Distance - MEN`)
-    mMeanDist_df$RaceCount[9-i] <- nrow(races[races$Year == 2024-i,])
 }
 ```
 
@@ -152,49 +150,193 @@ FOLLOWING CODE IS USED FOR GENERATING THE NUMBER OF TEAMS BAR CHARTS
 
 First, the mean number of teams for each year for the women's races is calculated, with the data values being entered manually, and with the data being split between the different possible categories of races
 ```{r}
-womenTeams2024Stage <- c(16, 20, 20, 18, 17)
-womenTeams2024GrandTour <- c(21, 22, 22)
-womenTeams2024OneDay <- c(16, 24, 24, 20, 24, 24, 24, 24, 24, 24, 18)
+wMeanTeams_df = data.frame(Year=c(2016:2024))
+wMeanTeams_df$TeamStage = c(0)
+wMeanTeams_df$TeamGT = c(0)
+wMeanTeams_df$TeamOD = c(0)
 
-meanWomenTeams2024Stage <- mean(womenTeams2024Stage)
-meanWomenTeams2024GrandTour <- mean(womenTeams2024GrandTour)
-meanWomenTeams2024OneDay <- mean(womenTeams2024OneDay)
-
-womenTeams2023Stage <- c(13, 20, 20, 19, 17)
-womenTeams2023GrandTour <- c(23, 24, 22)
-womenTeams2023OneDay <- c(12, 24, 24, 21, 24, 24, 24, 24, 24, 24, 18)
-
-meanWomenTeams2023Stage <- mean(womenTeams2023Stage)
-meanWomenTeams2023GrandTour <- mean(womenTeams2023GrandTour)
-meanWomenTeams2023OneDay <- mean(womenTeams2023OneDay)
-
-womenTeams2022Stage <- c(23, 22, 20)
-womenTeams2022GrandTour <- c(23, 22, 22)
-womenTeams2022OneDay <- c(24, 24, 23, 24, 24, 24, 24, 24, 24, 24)
-
-meanWomenTeams2022Stage <- mean(womenTeams2022Stage)
-meanWomenTeams2022GrandTour <- mean(womenTeams2022GrandTour)
-meanWomenTeams2022OneDay <- mean(womenTeams2022OneDay)
+for(i in 0:8) {
+  wMeanTeams_df$TeamStage[9-i] <- mean(races[races$Year == (2024-i) & races$Type == 'Stage',]$`Num Teams - WOMEN`)
+  wMeanTeams_df$TeamGT[9-i] <- mean(races[races$Year == (2024-i) & races$Type == 'Grand Tour',]$`Num Teams - WOMEN`)
+  if(i >= 7) {
+    wMeanTeams_df$TeamOD[9-i] <- mean(races[races$Year == (2024-i) & (races$Type == 'One-Day' | races$Race == 'Tour of Guangxi' | races$Race == 'La Vuelta de Espana'),]$`Num Teams - WOMEN`)
+  } else {
+    wMeanTeams_df$TeamOD[9-i] <- mean(races[races$Year == (2024-i) & (races$Type == 'One-Day' | races$Race == 'Tour of Guangxi'),]$`Num Teams - WOMEN`)
+  }
+}
 ```
 
 Next, we find the same values for the men's races:
 ```{r}
-menTeams2024Stage <- c(20, 20, 24, 24, 23, 19, 18)
-menTeams2024GrandTour <- c(22, 22, 22)
-menTeams2024OneDay <- c(13, 25, 25, 23, 25, 25, 25, 25, 25, 25)
+mMeanTeams_df = data.frame(Year=c(2016:2024))
+mMeanTeams_df$TeamStage = c(0)
+mMeanTeams_df$TeamGT = c(0)
+mMeanTeams_df$TeamOD = c(0)
 
-menTeams2023Stage <- c(18, 20, 23, 23, 22)
-menTeams2023GrandTour <- c(22, 22, 22)
-menTeams2023OneDay <- c(14, 25, 25, 22, 25, 25, 25, 25, 25, 25)
-
-menTeams2022Stage <- c(23, 22, 20)
-menTeams2022GrandTour <- c(23, 22, 22)
-menTeams2022OneDay <- c(25, 22, 24, 25, 24, 25, 25, 25, 25)
+for(i in 0:8) {
+  mMeanTeams_df$TeamStage[9-i] <- mean(races[races$Year == (2024-i) & (races$Type == 'Stage' | races$Race == 'Tour of Guangxi'),]$`Num Teams - MEN`)
+  mMeanTeams_df$TeamGT[9-i] <- mean(races[races$Year == (2024-i) & (races$Type == 'Grand Tour' | races$Race == 'La Vuelta de Espana'),]$`Num Teams - MEN`)
+  mMeanTeams_df$TeamOD[9-i] <- mean(races[races$Year == (2024-i) & races$Type == 'One-Day',]$`Num Teams - MEN`)
+}
 ```
 
 We then use this information to construct a sequence of bar charts:
 ```{r}
+teams_matrix <- matrix(c(wMeanTeams_df$TeamOD, mMeanTeams_df$TeamOD), nrow = 2, byrow = TRUE)
+rownames(teams_matrix) <- c("Womens", "Mens")
+colnames(teams_matrix) <- wMeanTeams_df$Year
+barplot(teams_matrix, xlab="Year", ylab="Mean Number of Teams", main="Men and Women's One-Day Mean Number of Teams", beside=TRUE, legend=c('Womens', 'Mens'), args.legend=list(x='bottomright'), col = c("lightblue", "lightcoral"))
 
+
+teams_matrix <- matrix(c(wMeanTeams_df$TeamStage, mMeanTeams_df$TeamStage), nrow = 2, byrow = TRUE)
+rownames(teams_matrix) <- c("Womens", "Mens")
+colnames(teams_matrix) <- wMeanTeams_df$Year
+barplot(teams_matrix, xlab="Year", ylab="Mean Number of Teams", main="Men and Women's Stage Mean Number of Teams", beside=TRUE, legend=c('Womens', 'Mens'), args.legend=list(x='bottomright'), col = c("lightblue", "lightcoral"))
+
+
+teams_matrix <- matrix(c(wMeanTeams_df$TeamGT, mMeanTeams_df$TeamGT), nrow = 2, byrow = TRUE)
+rownames(teams_matrix) <- c("Womens", "Mens")
+colnames(teams_matrix) <- wMeanTeams_df$Year
+barplot(teams_matrix, xlab="Year", ylab="Mean Number of Teams", main="Men and Women's Grand Tour Mean Number of Teams", beside=TRUE, legend=c('Womens', 'Mens'), args.legend=list(x='bottomright'), col = c("lightblue", "lightcoral"))
+```
+```{r}
+scatterTemp <- races[races$Type == 'One-Day' | races$Type == "Grand Tour / women's one-day" | races$Type == "Men's stage, women's one-day", c('Year', 'Num Teams - WOMEN')]
+scatterTemp$Gender <- 'Women'
+colnames(scatterTemp) <- c("Year", "Num Teams", "Gender")
+
+temp <- races[races$Type == 'One-Day', c('Year', 'Num Teams - MEN')]
+temp$Gender <- 'Men'
+colnames(temp) <- c("Year", "Num Teams", "Gender")
+
+scatterTemp <- rbind(scatterTemp, temp)
+
+colors <- c("lightcoral", "lightblue") 
+plot(scatterTemp$Year, scatterTemp$`Num Teams`, col=colors[factor(scatterTemp$Gender)], pch = 19, xlab='Year', ylab='Number of Teams', main="One-Day Races Number of Teams")
+legend("bottomright", legend=c('Men', 'Women'), pch = 19, col=colors)
+```
+```{r}
+scatterTemp <- races[races$Type == 'Stage', c('Year', 'Num Teams - WOMEN')]
+scatterTemp$Gender <- 'Women'
+colnames(scatterTemp) <- c("Year", "Num Teams", "Gender")
+
+temp <- races[races$Type == 'Stage' | races$Race == 'Tour of Guangxi', c('Year', 'Num Teams - MEN')]
+temp$Gender <- 'Men'
+colnames(temp) <- c("Year", "Num Teams", "Gender")
+
+scatterTemp <- rbind(scatterTemp, temp)
+
+plot(scatterTemp$Year, scatterTemp$`Num Teams`, col=colors[factor(scatterTemp$Gender)], pch = 19, xlab='Year', ylab='Number of Teams', main="Stage Races Number of Teams")
+legend("bottomright", legend=c('Men', 'Women'), pch = 19, col=colors)
+```
+```{r}
+scatterTemp <- races[races$Type == 'Grand Tour', c('Year', 'Num Teams - WOMEN')]
+scatterTemp$Gender <- 'Women'
+colnames(scatterTemp) <- c("Year", "Num Teams", "Gender")
+
+temp <- races[races$Type == 'Grand Tour' | races$Race == 'La Vuelta de Espana', c('Year', 'Num Teams - MEN')]
+temp$Gender <- 'Men'
+colnames(temp) <- c("Year", "Num Teams", "Gender")
+
+scatterTemp <- rbind(scatterTemp, temp)
+
+plot(scatterTemp$Year, scatterTemp$`Num Teams`, col=colors[factor(scatterTemp$Gender)], pch = 19, xlab='Year', ylab='Number of Teams', main="Grand Tour Races Number of Teams")
+legend("bottomright", legend=c('Men', 'Women'), pch = 19, col=colors)
+```
+
+################################################################################
+FOLLOWING CODE IS USED FOR GENERATING THE PLOTS FOR FINAL WINNER TIMES
+################################################################################
+
+```{r}
+wMeanTime_df = data.frame(Year=c(2016:2024))
+wMeanTime_df$TimeStage = c(0)
+wMeanTime_df$TimeGT = c(0)
+wMeanTime_df$TimeOD = c(0)
+
+for(i in 0:8) {
+  wMeanTime_df$TimeStage[9-i] <- mean(races[races$Year == (2024-i) & races$Type == 'Stage',]$`Final Winner Time - WOMEN`)
+  wMeanTime_df$TimeGT[9-i] <- mean(races[races$Year == (2024-i) & races$Type == 'Grand Tour',]$`Final Winner Time - WOMEN`)
+  if(i >= 7) {
+    wMeanTime_df$TimeOD[9-i] <- mean(races[races$Year == (2024-i) & (races$Type == 'One-Day' | races$Race == 'Tour of Guangxi' | races$Race == 'La Vuelta de Espana'),]$`Final Winner Time - WOMEN`)
+  } else {
+    wMeanTime_df$TimeOD[9-i] <- mean(races[races$Year == (2024-i) & (races$Type == 'One-Day' | races$Race == 'Tour of Guangxi'),]$`Final Winner Time - WOMEN`)
+  }
+}
+```
+
+```{r}
+mMeanTime_df = data.frame(Year=c(2016:2024))
+mMeanTime_df$TimeStage = c(0)
+mMeanTime_df$TimeGT = c(0)
+mMeanTime_df$TimeOD = c(0)
+
+for(i in 0:8) {
+  mMeanTime_df$TimeStage[9-i] <- mean(races[races$Year == (2024-i) & (races$Type == 'Stage' | races$Race == 'Tour of Guangxi'),]$`Final Winner Time - MEN`)
+  mMeanTime_df$TimeGT[9-i] <- mean(races[races$Year == (2024-i) & (races$Type == 'Grand Tour' | races$Race == 'La Vuelta de Espana'),]$`Final Winner Time - MEN`)
+  mMeanTime_df$TimeOD[9-i] <- mean(races[races$Year == (2024-i) & races$Type == 'One-Day',]$`Final Winner Time - MEN`)
+}
+```
+
+```{r}
+time_matrix <- matrix(c(wMeanTime_df$TimeOD, mMeanTime_df$TimeOD), nrow = 2, byrow = TRUE)
+rownames(time_matrix) <- c("Womens", "Mens")
+colnames(time_matrix) <- wMeanTime_df$Year
+barplot(time_matrix, xlab="Year", ylab="Mean Final Winner Time in Minutes", main="Men and Women's One-Day Mean Final Winner Times (Minutes)", beside=TRUE, legend=c('Womens', 'Mens'), args.legend=list(x='bottomright'), col = c("lightblue", "lightcoral"))
+
+
+time_matrix <- matrix(c(wMeanTime_df$TimeStage, mMeanTime_df$TimeStage), nrow = 2, byrow = TRUE)
+rownames(time_matrix) <- c("Womens", "Mens")
+colnames(time_matrix) <- wMeanTime_df$Year
+barplot(time_matrix, xlab="Year", ylab="Mean Final Winner Time in Minutes", main="Men and Women's Stage Mean Final Winner Times (Minutes)", beside=TRUE, legend=c('Womens', 'Mens'), args.legend=list(x='bottomright'), col = c("lightblue", "lightcoral"))
+
+
+time_matrix <- matrix(c(wMeanTime_df$TimeGT, mMeanTime_df$TimeGT), nrow = 2, byrow = TRUE)
+rownames(time_matrix) <- c("Womens", "Mens")
+colnames(time_matrix) <- wMeanTime_df$Year
+barplot(time_matrix, xlab="Year", ylab="Mean Final Winner Time in Minutes", main="Men and Women's Grand Tour Mean Final Winner Times (Minutes)", beside=TRUE, legend=c('Womens', 'Mens'), args.legend=list(x='bottomright'), col = c("lightblue", "lightcoral"))
+```
+```{r}
+scatterTemp <- races[races$Type == 'One-Day' | races$Type == "Grand Tour / women's one-day" | races$Type == "Men's stage, women's one-day", c('Year', 'Final Winner Time - WOMEN')]
+scatterTemp$Gender <- 'Women'
+colnames(scatterTemp) <- c("Year", "Final Winner Time", "Gender")
+
+temp <- races[races$Type == 'One-Day', c('Year', 'Final Winner Time - MEN')]
+temp$Gender <- 'Men'
+colnames(temp) <- c("Year", "Final Winner Time", "Gender")
+
+scatterTemp <- rbind(scatterTemp, temp)
+
+colors <- c("lightcoral", "lightblue") 
+plot(scatterTemp$Year, scatterTemp$`Final Winner Time`, col=colors[factor(scatterTemp$Gender)], pch = 19, xlab='Year', ylab='Final Winner Time', main="One-Day Races Final Winner Times")
+legend("bottomright", legend=c('Men', 'Women'), pch = 19, col=colors)
+```
+```{r}
+scatterTemp <- races[races$Type == 'Stage', c('Year', 'Final Winner Time - WOMEN')]
+scatterTemp$Gender <- 'Women'
+colnames(scatterTemp) <- c("Year", "Final Winner Time", "Gender")
+
+temp <- races[races$Type == 'Stage' | races$Race == 'Tour of Guangxi', c('Year', 'Final Winner Time - MEN')]
+temp$Gender <- 'Men'
+colnames(temp) <- c("Year", "Final Winner Time", "Gender")
+
+scatterTemp <- rbind(scatterTemp, temp)
+
+plot(scatterTemp$Year, scatterTemp$`Final Winner Time`, col=colors[factor(scatterTemp$Gender)], pch = 19, xlab='Year', ylab='Final Winner Time', main="Stage Races Final Winner Times")
+legend("topleft", legend=c('Men', 'Women'), pch = 19, col=colors)
+```
+```{r}
+scatterTemp <- races[races$Type == 'Grand Tour', c('Year', 'Final Winner Time - WOMEN')]
+scatterTemp$Gender <- 'Women'
+colnames(scatterTemp) <- c("Year", "Final Winner Time", "Gender")
+
+temp <- races[races$Type == 'Grand Tour' | races$Race == 'La Vuelta de Espana', c('Year', 'Final Winner Time - MEN')]
+temp$Gender <- 'Men'
+colnames(temp) <- c("Year", "Final Winner Time", "Gender")
+
+scatterTemp <- rbind(scatterTemp, temp)
+
+plot(scatterTemp$Year, scatterTemp$`Final Winner Time`, col=colors[factor(scatterTemp$Gender)], pch = 19, xlab='Year', ylab='Final Winner Time', main="Grand Tour Races Final Winner Times")
+legend("right", legend=c('Men', 'Women'), pch = 19, col=colors)
 ```
 
 
@@ -204,28 +346,100 @@ OVERALL PRIZE MONEY
 ################################################################################
 
 First, we collect the data for the individual and overall prize money for the women's races, with these being separated by category:
-```{r}
-individualWomenPrizeMoney2024Stage <- c(12000, 12030, 16000)
-individualWomenPrizeMoney2024GrandTour <- c(50000, 50000)
-individualWomenPrizeMoney2024OneDay <- c(16000, 16000, 2256, 16000, 20000, 21000, 16000, 10000, 12500)
 
-overallWomenPrizeMoney2024Stage <- c(100000, 100000, 130000)
-overallWomenPrizeMoney2024GrandTour <- c(250000, 250000)
-overallWomenPrizeMoney2024OneDay <- c(43000, 40000, 40000, 50000, 34000, 20000)
+```{r}
+# I'm thinking 6 box plots/ 3 twin box plots where we show a male and female for stage,GT,OD
+# do this both for individual prize and total prize
+prize_df <- races[races$Year == 2024,2:6]
+
+womPrizeTotalOD <- prize_df[prize_df$Type == 'One-Day' | prize_df$Type == "Grand Tour / women's one-day" | prize_df$Type == "Men's stage, women's one-day",]$`Total Prize Pool - WOMEN`
+womPrizeIndOD <- prize_df[prize_df$Type == 'One-Day' | prize_df$Type == "Grand Tour / women's one-day" | prize_df$Type == "Men's stage, women's one-day",]$`Individual Winner Monetary Prize - WOMEN`
+
+womPrizeTotalStage <- prize_df[prize_df$Type == 'Stage',]$`Total Prize Pool - WOMEN`
+womPrizeIndStage <- prize_df[prize_df$Type == 'Stage',]$`Individual Winner Monetary Prize - WOMEN`
+
+womPrizeTotalGT <- prize_df[prize_df$Type == 'Grand Tour',]$`Total Prize Pool - WOMEN`
+womPrizeIndGT <- prize_df[prize_df$Type == 'Grand Tour',]$`Individual Winner Monetary Prize - WOMEN`
+
+menPrizeTotalOD <- prize_df[prize_df$Type == 'One-Day',]$`Total Prize Pool - MEN`
+menPrizeIndOD <- prize_df[prize_df$Type == 'One-Day',]$`Individual Winner Monetary Prize - MEN`
+
+menPrizeTotalStage <- prize_df[prize_df$Type == 'Stage' | prize_df$Type == "Men's stage, women's one-day",]$`Total Prize Pool - MEN`
+menPrizeIndStage <- prize_df[prize_df$Type == 'Stage' | prize_df$Type == "Men's stage, women's one-day",]$`Individual Winner Monetary Prize - MEN`
+
+menPrizeTotalGT <- prize_df[prize_df$Type == 'Grand Tour' | prize_df$Type == "Grand Tour / women's one-day",]$`Total Prize Pool - MEN`
+menPrizeIndGT <- prize_df[prize_df$Type == 'Grand Tour' | prize_df$Type == "Grand Tour / women's one-day",]$`Individual Winner Monetary Prize - MEN`
 ```
 
-We then collect the same data for the men's races:
-```{r}
-individualMenPrizeMoney2024Stage <- c(12000, 35500, 12000, 16000, 12300, 20000)
-individualMenPrizeMoney2024GrandTour <- c(150000, 265000, 500000)
-individualMenPrizeMoney2024OneDay <- c(16000, 16000, 16000, 16000, 16000, 20000, 30000, 16000, 16000, 20000)
 
-overallMenPrizeMoney2024Stage <- c(100000, 300000, 99000, 130000, 103700, 128000)
-overallMenPrizeMoney2024GrandTour <- c(1119960, 1600000, 2573202)
-overallMenPrizeMoney2024OneDay <- c(43000, 40000, 40000, 40000, 40000, 50000, 91000, 34000, 40000, 50000)
+###
+Twin Total Prize bar plots
+###
+
+```{r}
+boxplot(c(min(min(menPrizeTotalOD, na.rm=TRUE), min(womPrizeTotalOD, na.rm=TRUE)), max(max(menPrizeTotalOD, na.rm=TRUE), max(womPrizeTotalOD, na.rm=TRUE))), boxfill=NA, border=NA, at=0)
+boxplot(womPrizeTotalOD, add=TRUE, at=-0.25)
+boxplot(menPrizeTotalOD, add=TRUE, at=0.25)
+
+
+boxplot(c(min(min(menPrizeTotalStage, na.rm=TRUE), min(womPrizeTotalStage, na.rm=TRUE)), max(max(menPrizeTotalStage, na.rm=TRUE), max(womPrizeTotalStage, na.rm=TRUE))), boxfill=NA, border=NA, at=0)
+boxplot(womPrizeTotalStage, add=TRUE, at=-0.25)
+boxplot(menPrizeTotalStage, add=TRUE, at=0.25)
+
+
+boxplot(c(min(min(menPrizeTotalGT, na.rm=TRUE), min(womPrizeTotalGT, na.rm=TRUE)), max(max(menPrizeTotalGT, na.rm=TRUE), max(womPrizeTotalGT, na.rm=TRUE))), boxfill=NA, border=NA, at=0)
+boxplot(womPrizeTotalGT, add=TRUE, at=-0.25)
+boxplot(menPrizeTotalGT, add=TRUE, at=0.25)
 ```
 
 
+```{r}
+boxplot(c(min(min(menPrizeIndOD, na.rm=TRUE), min(womPrizeIndOD, na.rm=TRUE)), max(max(menPrizeIndOD, na.rm=TRUE), max(womPrizeIndOD, na.rm=TRUE))), boxfill=NA, border=NA, at=0)
+boxplot(womPrizeIndOD, add=TRUE, at=-0.25)
+boxplot(menPrizeIndOD, add=TRUE, at=0.25)
 
 
+boxplot(c(min(min(menPrizeIndStage, na.rm=TRUE), min(womPrizeIndStage, na.rm=TRUE)), max(max(menPrizeIndStage, na.rm=TRUE), max(womPrizeIndStage, na.rm=TRUE))), boxfill=NA, border=NA, at=0)
+boxplot(womPrizeIndStage, add=TRUE, at=-0.25)
+boxplot(menPrizeIndStage, add=TRUE, at=0.25)
+
+
+boxplot(c(min(min(menPrizeIndGT, na.rm=TRUE), min(womPrizeIndGT, na.rm=TRUE)), max(max(menPrizeIndGT, na.rm=TRUE), max(womPrizeIndGT, na.rm=TRUE))), boxfill=NA, border=NA, at=0)
+boxplot(womPrizeIndGT, add=TRUE, at=-0.25)
+boxplot(menPrizeIndGT, add=TRUE, at=0.25)
+```
+
+####
+# Total Prize plots Individually
+###
+
+```{r}
+boxplot(womPrizeTotalOD)
+boxplot(womPrizeTotalStage)
+boxplot(womPrizeTotalGT)
+```
+
+
+```{r}
+boxplot(menPrizeTotalOD)
+boxplot(menPrizeTotalStage)
+boxplot(menPrizeTotalGT)
+```
+
+###
+# Individual Prize plots
+###
+
+```{r}
+boxplot(womPrizeIndOD)
+boxplot(womPrizeIndStage)
+boxplot(womPrizeIndGT)
+```
+
+
+```{r}
+boxplot(menPrizeIndOD)
+boxplot(menPrizeIndStage)
+boxplot(menPrizeIndGT)
+```
 
