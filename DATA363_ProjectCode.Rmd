@@ -478,22 +478,22 @@ boxplot(menPrizeIndGT)
 A barplot is then constructed for the individual and overall in each category:
 ```{r}
 ind_mean_tableOD <- c(mean(individualWomenPrizeMoney2024OneDay), mean(individualMenPrizeMoney2024OneDay))
-barplot(ind_mean_tableOD, xlab="", ylab="Individual Winner Prize Money (Euros)", ylim=c(0, mean(individualMenPrizeMoney2024OneDay) + 5000), col=c("lightblue", "lightcoral"), main="One Day Races Individual Winner Mean Prize Money (Euros)", legend=c("Women's", "Men's"), args.legend=list(x="bottomright", col=c("lightblue", "lightcoral")))
+barplot(ind_mean_tableOD, xlab="", ylab="Mean Individual Winner Prize Money (Euros)", ylim=c(0, mean(individualMenPrizeMoney2024OneDay) + 5000), col=c("lightblue", "lightcoral"), main="One-Day Races Mean Individual Winner Prize Money", legend=c("Women's", "Men's"), args.legend=list(x="bottomright", col=c("lightblue", "lightcoral")))
 
 ind_mean_tableS <- c(mean(individualWomenPrizeMoney2024Stage), mean(individualMenPrizeMoney2024Stage))
-barplot(ind_mean_tableS, xlab="", ylab="Individual Winner Prize Money (Euros)", ylim=c(0, mean(individualMenPrizeMoney2024Stage) + 5000), col=c("lightblue", "lightcoral"), main="Stage Races Individual Winner Mean Prize Money (Euros)", legend=c("Women's", "Men's"), args.legend=list(x="bottomright", col=c("lightblue", "lightcoral")))
+barplot(ind_mean_tableS, xlab="", ylab="Mean Individual Winner Prize Money (Euros)", ylim=c(0, mean(individualMenPrizeMoney2024Stage) + 5000), col=c("lightblue", "lightcoral"), main="Stage Races Mean Individual Winner Prize Money", legend=c("Women's", "Men's"), args.legend=list(x="bottomright", col=c("lightblue", "lightcoral")))
 
 ind_mean_tableGT <- c(mean(individualWomenPrizeMoney2024GrandTour), mean(individualMenPrizeMoney2024GrandTour))
-barplot(ind_mean_tableGT, xlab="", ylab="Individual Winner Prize Money (Euros)", ylim=c(0, mean(individualMenPrizeMoney2024GrandTour) + 5000), col=c("lightblue", "lightcoral"), main="Grand Tour Races Individual Winner Mean Prize Money (Euros)", legend=c("Women's", "Men's"), args.legend=list(x="bottomright", col=c("lightblue", "lightcoral")))
+barplot(ind_mean_tableGT, xlab="", ylab="Mean Individual Winner Prize Money (Euros)", ylim=c(0, mean(individualMenPrizeMoney2024GrandTour) + 5000), col=c("lightblue", "lightcoral"), main="Grand Tour Races Mean Individual Winner Prize Money", legend=c("Women's", "Men's"), args.legend=list(x="bottomright", col=c("lightblue", "lightcoral")))
 
 overall_mean_tableOD <- c(mean(overallWomenPrizeMoney2024OneDay), mean(overallMenPrizeMoney2024OneDay))
-barplot(overall_mean_tableOD, xlab="", ylab="Overall Mean Prize Pool (Euros)", ylim=c(0, mean(overallMenPrizeMoney2024OneDay) + 5000), col=c("lightblue", "lightcoral"), main="One Day Races Overall Mean Prize Pool (Euros)", legend=c("Women's", "Men's"), args.legend=list(x="bottomright", col=c("lightblue", "lightcoral")))
+barplot(overall_mean_tableOD, xlab="", ylab="Mean Overall Prize Pool (Euros)", ylim=c(0, mean(overallMenPrizeMoney2024OneDay) + 5000), col=c("lightblue", "lightcoral"), main="One-Day Races Mean Overall Prize Pool", legend=c("Women's", "Men's"), args.legend=list(x="bottomright", col=c("lightblue", "lightcoral")))
 
 overall_mean_tableS <- c(mean(overallWomenPrizeMoney2024Stage), mean(overallMenPrizeMoney2024Stage))
-barplot(overall_mean_tableS, xlab="", ylab="Overall Mean Prize Pool (Euros)", ylim=c(0, mean(overallMenPrizeMoney2024Stage) + 5000), col=c("lightblue", "lightcoral"), main="Stage Races Overall Mean Prize Pool (Euros)", legend=c("Women's", "Men's"), args.legend=list(x="bottomright", col=c("lightblue", "lightcoral")))
+barplot(overall_mean_tableS, xlab="", ylab="Mean Overall Prize Pool (Euros)", ylim=c(0, mean(overallMenPrizeMoney2024Stage) + 5000), col=c("lightblue", "lightcoral"), main="Stage Races Mean Overall Prize Pool", legend=c("Women's", "Men's"), args.legend=list(x="bottomright", col=c("lightblue", "lightcoral")))
 
 overall_mean_tableGT <- c(mean(overallWomenPrizeMoney2024GrandTour), mean(overallMenPrizeMoney2024GrandTour))
-barplot(overall_mean_tableGT, xlab="", ylab="Overall Mean Prize Pool (Euros)", ylim=c(0, mean(overallMenPrizeMoney2024GrandTour) + 5000), col=c("lightblue", "lightcoral"), main="Grand Tour Races Overall Mean Prize Pool (Euros)", legend=c("Women's", "Men's"), args.legend=list(x="bottomright", col=c("lightblue", "lightcoral")))
+barplot(overall_mean_tableGT, xlab="", ylab="Mean Overall Prize Pool (Euros)", ylim=c(0, mean(overallMenPrizeMoney2024GrandTour) + 5000), col=c("lightblue", "lightcoral"), main="Grand Tour Races Mean Overall Prize Pool", legend=c("Women's", "Men's"), args.legend=list(x="bottomright", col=c("lightblue", "lightcoral")))
 ```
 
 
