@@ -341,118 +341,12 @@ plot(scatterTemp$Year, scatterTemp$`Final Winner Time`, col=colors[factor(scatte
 legend("right", legend=c('Men', 'Women'), pch = 19, col=colors)
 ```
 
-
 ################################################################################
-FOLLOWING CODE IS USED FOR GENERATING THE BOX PLOTS FOR THE INDIVIDUAL AND 
-OVERALL PRIZE MONEY
-################################################################################
-
-First, we collect the data for the individual and overall prize money for the women's races, with these being separated by category:
-
-```{r}
-# I'm thinking 6 box plots/ 3 twin box plots where we show a male and female for stage,GT,OD
-# do this both for individual prize and total prize
-prize_df <- races[races$Year == 2024,2:6]
-
-womPrizeTotalOD <- prize_df[prize_df$Type == 'One-Day' | prize_df$Type == "Grand Tour / women's one-day" | prize_df$Type == "Men's stage, women's one-day",]$`Total Prize Pool - WOMEN`
-womPrizeIndOD <- prize_df[prize_df$Type == 'One-Day' | prize_df$Type == "Grand Tour / women's one-day" | prize_df$Type == "Men's stage, women's one-day",]$`Individual Winner Monetary Prize - WOMEN`
-
-womPrizeTotalStage <- prize_df[prize_df$Type == 'Stage',]$`Total Prize Pool - WOMEN`
-womPrizeIndStage <- prize_df[prize_df$Type == 'Stage',]$`Individual Winner Monetary Prize - WOMEN`
-
-womPrizeTotalGT <- prize_df[prize_df$Type == 'Grand Tour',]$`Total Prize Pool - WOMEN`
-womPrizeIndGT <- prize_df[prize_df$Type == 'Grand Tour',]$`Individual Winner Monetary Prize - WOMEN`
-
-menPrizeTotalOD <- prize_df[prize_df$Type == 'One-Day',]$`Total Prize Pool - MEN`
-menPrizeIndOD <- prize_df[prize_df$Type == 'One-Day',]$`Individual Winner Monetary Prize - MEN`
-
-menPrizeTotalStage <- prize_df[prize_df$Type == 'Stage' | prize_df$Type == "Men's stage, women's one-day",]$`Total Prize Pool - MEN`
-menPrizeIndStage <- prize_df[prize_df$Type == 'Stage' | prize_df$Type == "Men's stage, women's one-day",]$`Individual Winner Monetary Prize - MEN`
-
-menPrizeTotalGT <- prize_df[prize_df$Type == 'Grand Tour' | prize_df$Type == "Grand Tour / women's one-day",]$`Total Prize Pool - MEN`
-menPrizeIndGT <- prize_df[prize_df$Type == 'Grand Tour' | prize_df$Type == "Grand Tour / women's one-day",]$`Individual Winner Monetary Prize - MEN`
-```
-
-
-###
-Twin Total Prize bar plots
-###
-
-```{r}
-boxplot(c(min(min(menPrizeTotalOD, na.rm=TRUE), min(womPrizeTotalOD, na.rm=TRUE)), max(max(menPrizeTotalOD, na.rm=TRUE), max(womPrizeTotalOD, na.rm=TRUE))), boxfill=NA, border=NA, at=0)
-boxplot(womPrizeTotalOD, add=TRUE, at=-0.25)
-boxplot(menPrizeTotalOD, add=TRUE, at=0.25)
-
-
-boxplot(c(min(min(menPrizeTotalStage, na.rm=TRUE), min(womPrizeTotalStage, na.rm=TRUE)), max(max(menPrizeTotalStage, na.rm=TRUE), max(womPrizeTotalStage, na.rm=TRUE))), boxfill=NA, border=NA, at=0)
-boxplot(womPrizeTotalStage, add=TRUE, at=-0.25)
-boxplot(menPrizeTotalStage, add=TRUE, at=0.25)
-
-
-boxplot(c(min(min(menPrizeTotalGT, na.rm=TRUE), min(womPrizeTotalGT, na.rm=TRUE)), max(max(menPrizeTotalGT, na.rm=TRUE), max(womPrizeTotalGT, na.rm=TRUE))), boxfill=NA, border=NA, at=0)
-boxplot(womPrizeTotalGT, add=TRUE, at=-0.25)
-boxplot(menPrizeTotalGT, add=TRUE, at=0.25)
-```
-
-
-
-
-```{r}
-boxplot(c(min(min(menPrizeIndOD, na.rm=TRUE), min(womPrizeIndOD, na.rm=TRUE)), max(max(menPrizeIndOD, na.rm=TRUE), max(womPrizeIndOD, na.rm=TRUE))), boxfill=NA, border=NA, at=0)
-boxplot(womPrizeIndOD, add=TRUE, at=-0.25)
-boxplot(menPrizeIndOD, add=TRUE, at=0.25)
-
-
-boxplot(c(min(min(menPrizeIndStage, na.rm=TRUE), min(womPrizeIndStage, na.rm=TRUE)), max(max(menPrizeIndStage, na.rm=TRUE), max(womPrizeIndStage, na.rm=TRUE))), boxfill=NA, border=NA, at=0)
-boxplot(womPrizeIndStage, add=TRUE, at=-0.25)
-boxplot(menPrizeIndStage, add=TRUE, at=0.25)
-
-
-boxplot(c(min(min(menPrizeIndGT, na.rm=TRUE), min(womPrizeIndGT, na.rm=TRUE)), max(max(menPrizeIndGT, na.rm=TRUE), max(womPrizeIndGT, na.rm=TRUE))), boxfill=NA, border=NA, at=0)
-boxplot(womPrizeIndGT, add=TRUE, at=-0.25)
-boxplot(menPrizeIndGT, add=TRUE, at=0.25)
-```
-
-####
-# Total Prize plots Individually
-###
-
-```{r}
-boxplot(womPrizeTotalOD)
-boxplot(womPrizeTotalStage)
-boxplot(womPrizeTotalGT)
-```
-
-
-```{r}
-boxplot(menPrizeTotalOD)
-boxplot(menPrizeTotalStage)
-boxplot(menPrizeTotalGT)
-```
-
-###
-# Individual Prize plots
-###
-
-```{r}
-boxplot(womPrizeIndOD)
-boxplot(womPrizeIndStage)
-boxplot(womPrizeIndGT)
-```
-
-
-```{r}
-boxplot(menPrizeIndOD)
-boxplot(menPrizeIndStage)
-boxplot(menPrizeIndGT)
-```
-
-################################################################################
- FOLLOWING CODE IS USED FOR GENERATING THE BOX PLOTS FOR THE INDIVIDUAL AND 
+ FOLLOWING CODE IS USED FOR GENERATING THE BAR PLOTS FOR THE INDIVIDUAL AND 
  OVERALL PRIZE MONEY
- ################################################################################
+################################################################################
  
- First, we collect the data for the individual and overall prize money for the women's races, with these being separated by category:
+First, we collect the data for the individual and overall prize money for the women's races, with these being separated by category:
 ```{r}
  individualWomenPrizeMoney2024Stage <- c(12000, 12030, 16000)
  individualWomenPrizeMoney2024GrandTour <- c(50000, 50000)
@@ -494,6 +388,289 @@ barplot(overall_mean_tableS, xlab="", ylab="Mean Overall Prize Pool (Euros)", yl
 
 overall_mean_tableGT <- c(mean(overallWomenPrizeMoney2024GrandTour), mean(overallMenPrizeMoney2024GrandTour))
 barplot(overall_mean_tableGT, xlab="", ylab="Mean Overall Prize Pool (Euros)", ylim=c(0, mean(overallMenPrizeMoney2024GrandTour) + 5000), col=c("lightblue", "lightcoral"), main="Grand Tour Races Mean Overall Prize Pool", legend=c("Women's", "Men's"), args.legend=list(x="bottomright", col=c("lightblue", "lightcoral")))
+```
+
+
+################################################################################
+ FOLLOWING CODE IS USED FOR HYPOTHESIS TESTING DISTANCES IN 2024
+################################################################################
+
+Testing the difference in total distances for one day races in 2024. Our alternative hypothesis is that the women's races are significantly lower in distance than the men's races
+
+```{r}
+fDistOD24 <- races[(races$Type == 'One-Day' | races$Type == "Grand Tour / women's one-day" | races$Type == "Men's stage, women's one-day") & races$Year == 2024, c('Total Distance - WOMEN')]
+
+mDistOD24 <- races[(races$Type == 'One-Day') & races$Year == 2024, c('Total Distance - MEN')]
+
+t.test(fDistOD24[[1]], mDistOD24[[1]], alternative = 'less')
+```
+
+Testing the difference in total distances for stage races in 2024. Our alternative hypothesis is that the women's races are significantly lower in distance than the men's races
+
+```{r}
+fDistStage24 <- races[races$Type == 'Stage' & races$Year == 2024, c('Total Distance - WOMEN')]
+
+mDistStage24 <- races[(races$Type == 'Stage' | races$Race == 'Tour of Guangxi') & (races$Year == 2024), c('Total Distance - MEN')]
+
+t.test(fDistStage24[[1]], mDistStage24[[1]], alternative = 'less')
+```
+
+Testing the difference in total distances for grand tour in 2024. Our alternative hypothesis is that the women's races are significantly lower in distance than the men's races
+
+```{r}
+fDistGT24 <- races[races$Type == 'Grand Tour' & races$Year == 2024, c('Total Distance - WOMEN')]
+
+mDistGT24 <- races[(races$Type == 'Grand Tour' | races$Race == 'La Vuelta de Espana') & races$Year == 2024, c('Total Distance - MEN')]
+
+t.test(fDistGT24[[1]], mDistGT24[[1]], alternative = 'less')
+```
+
+################################################################################
+ FOLLOWING CODE IS USED FOR HYPOTHESIS TESTING DISTANCES FROM 2016-2024
+################################################################################
+
+```{r}
+temp = races[c('Race', 'Type', 'Total Distance - WOMEN', 'Total Distance - MEN', 'Year')]
+
+# had to pull out tidyverse for this one
+dist_long <- temp %>% pivot_longer(
+  cols = c('Total Distance - WOMEN', 'Total Distance - MEN'),
+  names_to = "Gender",
+  values_to = "Distance"
+  ) %>%
+  mutate(
+    Gender = ifelse(Gender == "Total Distance - MEN", "Men", "Women")
+  ) 
+
+one_day <- dist_long %>% filter(Type == "One-Day" | (Race=='Tour of Guangxi' & Gender == 'Women') | (Race=='La Vuelta de Espana' & Gender == 'Women' & Year < 2018))
+stage <- dist_long %>% filter(Type == "Stage" | (Race=='Tour of Guangxi' & Gender == 'Men'))
+grand_tour <- dist_long %>% filter(Type == "Grand Tour" | (Race=='La Vuelta de Espana' & Gender == 'Men'))
+```
+
+The first model tests whether there is a consistent difference between men's and women's one day race distances across all years. A significant effect of gender in this model indicates a consistent gender gap.
+
+```{r}
+model_one_day <- lm(Distance ~ Gender + Year, data = one_day)
+summary(model_one_day)
+```
+
+The second model adds an interaction term between gender and year to test whether the gender gap for distances has changed over time (i.e., whether it has increased or decreased). If the interaction is not significant, this suggests that the more complex model does not provide a substantially better fit than the simpler additive model.
+```{r}
+interaction_model_one_day <- lm(Distance ~ Gender * Year, data = one_day)
+summary(interaction_model_one_day)
+```
+
+Comparing the two models using ANOVA, we found a high p-value for the interaction term, indicating that it is not statistically significant.
+
+```{r}
+anova(model_one_day, interaction_model_one_day)
+```
+There is a statistically significant difference in one day race distances between men and women across all years (p < 2e-16). However, the interaction between gender and year is not significant, suggesting that the gender gap has remained relatively stable over time.
+
+
+#######
+
+The first model tests whether there is a consistent difference between men's and women's stage race distances across all years. A significant effect of gender in this model indicates a consistent gender gap.
+```{r}
+model_stage <- lm(Distance ~ Gender + Year, data = stage)
+summary(model_stage)
+```
+
+The second model adds an interaction term between gender and year to test whether the gender gap for distances has changed over time (i.e., whether it has increased or decreased). If the interaction is not significant, this suggests that the more complex model does not provide a substantially better fit than the simpler additive model.
+```{r}
+interaction_model_stage <- lm(Distance ~ Gender * Year, data = stage)
+summary(interaction_model_stage)
+```
+
+Comparing the two models using ANOVA, we found a high p-value for the interaction term, indicating that it is not statistically significant.
+```{r}
+anova(model_stage, interaction_model_stage)
+```
+There is a statistically significant difference in one day race distances between men and women across all years (p < 2e-16). However, the interaction between gender and year is not significant, suggesting that the gender gap has remained relatively stable over time.
+
+
+####
+
+The first model tests whether there is a consistent difference between men's and women's grand tour race distances across all years. A significant effect of gender in this model indicates a consistent gender gap.
+```{r}
+model_grand_tour <- lm(Distance ~ Gender + Year, data = grand_tour)
+summary(model_grand_tour)
+```
+
+The second model adds an interaction term between gender and year to test whether the gender gap for distances has changed over time (i.e., whether it has increased or decreased). If the interaction is not significant, this suggests that the more complex model does not provide a substantially better fit than the simpler additive model.
+```{r}
+interaction_model_grand_tour <- lm(Distance ~ Gender * Year, data = grand_tour)
+summary(interaction_model_grand_tour)
+```
+
+Comparing the two models using ANOVA, we found a high p-value for the interaction term, indicating that it is not statistically significant.
+```{r}
+anova(model_grand_tour, interaction_model_grand_tour)
+```
+
+There is a statistically significant difference in one day race distances between men and women across all years (p < 2e-16). However, the interaction between gender and year is not significant, suggesting that the gender gap has remained relatively stable over time.
+
+################################################################################
+ FOLLOWING CODE IS USED FOR HYPOTHESIS TESTING THE NUMBER OF TEAMS IN 2024  
+################################################################################
+
+Testing the difference in team amounts for one day races in 2024. Our alternative hypothesis is that the women's races are significantly lower in team amounts than the men's races
+
+```{r}
+fTeamsOD24 <- races[(races$Type == 'One-Day' | races$Type == "Grand Tour / women's one-day" | races$Type == "Men's stage, women's one-day") & races$Year == 2024, c('Num Teams - WOMEN')]
+
+mTeamsOD24 <- races[(races$Type == 'One-Day') & races$Year == 2024, c('Num Teams - WOMEN')]
+
+t.test(fTeamsOD24[[1]], mTeamsOD24[[1]], alternative = 'less')
+```
+
+Testing the difference in team amounts for stage races in 2024. Our alternative hypothesis is that the women's races are significantly lower in team amounts than the men's races
+```{r}
+fTeamsStage24 <- races[races$Type == 'Stage' & races$Year == 2024, c('Num Teams - WOMEN')]
+
+mTeamsStage24 <- races[(races$Type == 'Stage' | races$Race == 'Tour of Guangxi') & (races$Year == 2024), c('Num Teams - WOMEN')]
+
+t.test(fTeamsStage24[[1]], mTeamsStage24[[1]], alternative = 'less')
+```
+
+Testing the difference in team amounts for grand tour races in 2024. Our alternative hypothesis is that the women's races are significantly lower in team amounts than the men's races
+```{r}
+fTeamsGT24 <- races[races$Type == 'Grand Tour' & races$Year == 2024, c('Num Teams - WOMEN')]
+
+mTeamsGT24 <- races[(races$Type == 'Grand Tour' | races$Race == 'La Vuelta de Espana') & races$Year == 2024, c('Num Teams - WOMEN')]
+
+t.test(fTeamsGT24[[1]], mTeamsGT24[[1]], alternative = 'less')
+```
+
+################################################################################
+ FOLLOWING CODE IS USED FOR HYPOTHESIS TESTING TEAM AMOUNTS FROM 2016-2024
+################################################################################
+
+```{r}
+temp = races[c('Race', 'Type', 'Num Teams - WOMEN', 'Num Teams - MEN', 'Year')]
+
+# had to pull out tidyverse for this one
+team_long <- temp %>% pivot_longer(
+  cols = c('Num Teams - WOMEN', 'Num Teams - MEN'),
+  names_to = "Gender",
+  values_to = "Teams"
+  ) %>%
+  mutate(
+    Gender = ifelse(Gender == "Num Teams - MEN", "Men", "Women")
+  ) 
+
+one_day <- team_long %>% filter(Type == "One-Day" | (Race=='Tour of Guangxi' & Gender == 'Women') | (Race=='La Vuelta de Espana' & Gender == 'Women' & Year < 2018))
+stage <- team_long %>% filter(Type == "Stage" | (Race=='Tour of Guangxi' & Gender == 'Men'))
+grand_tour <- team_long %>% filter(Type == "Grand Tour" | (Race=='La Vuelta de Espana' & Gender == 'Men'))
+```
+
+The first model tests whether there is a consistent difference between men's and women's one day race team amounts across all years. A significant effect of gender in this model indicates a consistent gender gap.
+
+```{r}
+model_one_day <- lm(Teams ~ Gender + Year, data = one_day)
+summary(model_one_day)
+```
+
+The second model adds an interaction term between gender and year to test whether the gender gap for team amounts has changed over time (i.e., whether it has increased or decreased). If the interaction is not significant, this suggests that the more complex model does not provide a substantially better fit than the simpler additive model.
+```{r}
+interaction_model_one_day <- lm(Teams ~ Gender * Year, data = one_day)
+summary(interaction_model_one_day)
+```
+
+Comparing the two models using ANOVA, we found a high p-value for the interaction term, indicating that it is not statistically significant.
+
+```{r}
+anova(model_one_day, interaction_model_one_day)
+```
+
+There is a statistically significant difference in one day race team amounts between men and women across all years (p < 0.00629). However, the interaction between gender and year is not significant, suggesting that the gender gap for team amounts has remained relatively stable over time.
+
+#
+Although the 2024 data alone does not show a statistically significant gender difference in the number of teams (t-test, p = 0.3635), a linear model across all years reveals a significant gender effect. This suggests that while the gender gap may not appear in 2024 specifically, it is consistent and detectable over the full time span
+#
+
+
+#######
+
+The first model tests whether there is a consistent difference between men's and women's stage race team amounts across all years. A significant effect of gender in this model indicates a consistent gender gap.
+
+```{r}
+model_stage <- lm(Teams ~ Gender + Year, data = stage)
+summary(model_stage)
+```
+
+The second model adds an interaction term between gender and year to test whether the gender gap for team amounts has changed over time (i.e., whether it has increased or decreased). If the interaction is not significant, this suggests that the more complex model does not provide a substantially better fit than the simpler additive model.
+```{r}
+interaction_model_stage <- lm(Teams ~ Gender * Year, data = stage)
+summary(interaction_model_stage)
+```
+
+Comparing the two models using ANOVA, we found a high p-value for the interaction term, indicating that it is not statistically significant.
+
+```{r}
+anova(model_one_day, interaction_model_one_day)
+```
+There is a statistically significant difference in stage race team amounts between men and women across all years (p < 8.85e-07). However, the interaction between gender and year is not significant, suggesting that the gender gap for team amounts has remained relatively stable over time.
+
+
+#######
+
+The first model tests whether there is a consistent difference between men's and women's grand tour race team amounts across all years. A significant effect of gender in this model indicates a consistent gender gap.
+
+```{r}
+model_grand_tour <- lm(Teams ~ Gender + Year, data = grand_tour)
+summary(model_grand_tour)
+```
+The second model adds an interaction term between gender and year to test whether the gender gap for team amounts has changed over time (i.e., whether it has increased or decreased). If the interaction is not significant, this suggests that the more complex model does not provide a substantially better fit than the simpler additive model.
+```{r}
+interaction_model_grand_tour <- lm(Teams ~ Gender * Year, data = grand_tour)
+summary(interaction_model_grand_tour)
+```
+
+Comparing the two models using ANOVA, we found a high p-value for the interaction term, indicating that it is not statistically significant.
+
+```{r}
+anova(model_one_day, interaction_model_one_day)
+```
+There is not a statistically significant difference in grand tour race team amounts between men and women across all years (p < 0.991). The interaction between gender and year is not significant either, suggesting that there has not been a consistent difference in the amount of teams for men and women's grand tour races.
+
+
+################################################################################
+ FOLLOWING CODE IS USED FOR HYPOTHESIS TESTING WITH INDIVIDUAL PRIZE MONEY
+################################################################################
+
+Testing the difference in individual prize money for one day races in 2024. Our alternative hypothesis is that the women's races are significantly lower in prize money amounts than the men's races
+```{r}
+t.test(individualWomenPrizeMoney2024OneDay, individualMenPrizeMoney2024OneDay, alternative='less')
+```
+
+Testing the difference in individual prize money for stage races in 2024. Our alternative hypothesis is that the women's races are significantly lower in prize money amounts than the men's races
+```{r}
+t.test(individualWomenPrizeMoney2024Stage, individualMenPrizeMoney2024Stage, alternative='less')
+```
+
+Testing the difference in individual prize money for grand tour races in 2024. Our alternative hypothesis is that the women's races are significantly lower in prize money amounts than the men's races
+```{r}
+t.test(individualWomenPrizeMoney2024GrandTour, individualMenPrizeMoney2024GrandTour, alternative='less')
+```
+
+################################################################################
+ FOLLOWING CODE IS USED FOR HYPOTHESIS TESTING WITH OVERALL PRIZE MONEY
+################################################################################
+
+Testing the difference in overall prize money for one day races in 2024. Our alternative hypothesis is that the women's races are significantly lower in prize money amounts than the men's races
+```{r}
+t.test(overallWomenPrizeMoney2024OneDay, overallMenPrizeMoney2024OneDay, alternative='less')
+```
+
+Testing the difference in overall prize money for stage races in 2024. Our alternative hypothesis is that the women's races are significantly lower in prize money amounts than the men's races
+```{r}
+t.test(overallWomenPrizeMoney2024Stage, overallMenPrizeMoney2024Stage, alternative='less')
+```
+
+Testing the difference in overall prize money for grand tour races in 2024. Our alternative hypothesis is that the women's races are significantly lower in prize money amounts than the men's races
+```{r}
+t.test(overallWomenPrizeMoney2024GrandTour, overallMenPrizeMoney2024GrandTour, alternative='less')
 ```
 
 
