@@ -465,7 +465,7 @@ Comparing the two models using ANOVA, we found a high p-value for the interactio
 ```{r}
 anova(model_one_day, interaction_model_one_day)
 ```
-There is a statistically significant difference in one day race distances between men and women across all years (p < 2e-16). However, the interaction between gender and year is not significant, suggesting that the gender gap has remained relatively stable over time.
+There is a statistically significant difference in one day race distances between men and women across all years (p < 2e-16). However, the interaction between gender and year is not significant (p=0.4294), suggesting that the gender gap has remained relatively stable over time.
 
 
 #######
@@ -486,7 +486,7 @@ Comparing the two models using ANOVA, we found a high p-value for the interactio
 ```{r}
 anova(model_stage, interaction_model_stage)
 ```
-There is a statistically significant difference in one day race distances between men and women across all years (p < 2e-16). However, the interaction between gender and year is not significant, suggesting that the gender gap has remained relatively stable over time.
+There is a statistically significant difference in stage race distances between men and women across all years (p < 2e-16). However, the interaction between gender and year is not significant (p=0.7332), suggesting that the gender gap has remained relatively stable over time.
 
 
 ####
@@ -508,7 +508,7 @@ Comparing the two models using ANOVA, we found a high p-value for the interactio
 anova(model_grand_tour, interaction_model_grand_tour)
 ```
 
-There is a statistically significant difference in one day race distances between men and women across all years (p < 2e-16). However, the interaction between gender and year is not significant, suggesting that the gender gap has remained relatively stable over time.
+There is a statistically significant difference in one day race distances between men and women across all years (p < 2e-16). However, the interaction between gender and year is not significant (p=0.2157), suggesting that the gender gap has remained relatively stable over time.
 
 ################################################################################
  FOLLOWING CODE IS USED FOR HYPOTHESIS TESTING THE NUMBER OF TEAMS IN 2024  
@@ -608,7 +608,7 @@ summary(interaction_model_stage)
 Comparing the two models using ANOVA, we found a high p-value for the interaction term, indicating that it is not statistically significant.
 
 ```{r}
-anova(model_one_day, interaction_model_one_day)
+anova(model_stage, interaction_model_stage)
 ```
 There is a statistically significant difference in stage race team amounts between men and women across all years (p < 8.85e-07). However, the interaction between gender and year is not significant, suggesting that the gender gap for team amounts has remained relatively stable over time.
 
@@ -630,7 +630,7 @@ summary(interaction_model_grand_tour)
 Comparing the two models using ANOVA, we found a high p-value for the interaction term, indicating that it is not statistically significant.
 
 ```{r}
-anova(model_one_day, interaction_model_one_day)
+anova(model_grand_tour, interaction_model_grand_tour)
 ```
 There is not a statistically significant difference in grand tour race team amounts between men and women across all years (p < 0.991). The interaction between gender and year is not significant either, suggesting that there has not been a consistent difference in the amount of teams for men and women's grand tour races.
 
